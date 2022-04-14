@@ -1,0 +1,51 @@
+server:
+  port: 9000
+
+spring:
+  profiles:
+    active: production
+
+---
+#PostgreSQL
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_service_db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    generate-ddl: false
+    show-sql: false
+
+  config:
+    activate:
+      on-profile: production
+---
+#Test profile
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    password: 12345
+    url: jdbc:h2:mem:testdb;DEFAULT_LOCK_TIMEOUT=10000;LOCK_MODE=0
+    username: sa
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: true
+
+  config:
+    activate:
+      on-profile: test
+
+  main:
+    allow-bean-definition-overriding: true
